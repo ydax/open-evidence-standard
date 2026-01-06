@@ -1,0 +1,82 @@
+{
+  "oes_version": "1.0.0",
+  "metadata": {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "created_at": "2024-01-15T14:30:00Z",
+    "generator": "Clarisearch Core v2.1.0",
+    "integrity_hash": "a3f5e8d9c2b1a4f6e7d8c9b0a1f2e3d4c5b6a7f8e9d0c1b2a3f4e5d6c7b8a9f0"
+  },
+  "source_manifest": [
+    {
+      "file_id": "depo-001",
+      "file_name": "Deposition of Dr. Jane Smith - 2024-01-10.pdf",
+      "file_hash": "b4c6d8e0f2a1b3c5d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7a9b1c3"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "evidence-001",
+      "file_id": "depo-001",
+      "content": {
+        "snippet": "I reviewed the patient's chart on March 15th and noticed the attending physician had not ordered the standard post-operative antibiotic protocol.",
+        "visual_description": null,
+        "extracted_values": [
+          {
+            "value": "March 15th",
+            "type": "Date",
+            "unit": null
+          }
+        ]
+      },
+      "location": {
+        "page": 42,
+        "line_range": "15-18",
+        "timestamp_range": null,
+        "speaker": "Dr. Jane Smith"
+      },
+      "analysis": {
+        "relevance_score": 0.95,
+        "explanation": "Direct testimony establishing deviation from standard of care regarding post-operative antibiotic administration.",
+        "strength": "High",
+        "legal_elements": ["Standard of Care", "Breach", "Medical Negligence"],
+        "thematic_tags": ["Standard of Care Deviation", "Expert Opinion", "Medical Protocol"],
+        "contradiction_flag": false
+      }
+    },
+    {
+      "evidence_id": "evidence-002",
+      "file_id": "depo-001",
+      "content": {
+        "snippet": "In my 15 years of practice, I have never seen a case where post-operative antibiotics were not administered within 24 hours of surgery.",
+        "visual_description": null,
+        "extracted_values": [
+          {
+            "value": "15",
+            "type": "Duration",
+            "unit": "years"
+          },
+          {
+            "value": "24",
+            "type": "Duration",
+            "unit": "hours"
+          }
+        ]
+      },
+      "location": {
+        "page": 43,
+        "line_range": "5-7",
+        "timestamp_range": null,
+        "speaker": "Dr. Jane Smith"
+      },
+      "analysis": {
+        "relevance_score": 0.88,
+        "explanation": "Expert testimony establishing industry standard for post-operative antibiotic timing based on extensive experience.",
+        "strength": "High",
+        "legal_elements": ["Standard of Care", "Expert Opinion"],
+        "thematic_tags": ["Industry Standard", "Expert Opinion", "Medical Protocol"],
+        "contradiction_flag": false
+      }
+    }
+  ]
+}
+
