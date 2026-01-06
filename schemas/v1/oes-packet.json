@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openevidencestandard.org/schemas/v1/packet.json",
+  "title": "Open Evidence Packet",
+  "description": "A cryptographic container for structured legal evidence.",
+  "type": "object",
+  "required": ["oes_version", "metadata", "evidence"],
+  "properties": {
+    "oes_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "The version of the Open Evidence Standard used."
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["id", "created_at", "generator", "integrity_hash"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "generator": {
+          "type": "string",
+          "description": "The system that generated this packet (e.g., 'Clarisearch Core v2.1')."
+        },
+        "integrity_hash": {
+          "type": "string",
+          "description": "SHA-256 hash of the 'evidence' array content. Ensures tamper-evidence."
+        }
+      }
+    },
+    "source_manifest": {
+      "type": "array",
+      "description": "List of files included in this analysis. Critical for Zero-Trust verification.",
+      "items": {
+        "type": "object",
+        "required": ["file_id", "file_name", "file_hash"],
+        "properties": {
+          "file_id": { "type": "string" },
+          "file_name": { "type": "string" },
+          "file_hash": { "type": "string", "description": "SHA-256 of the source file." }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceItem" }
+    }
+  },
+  "$defs": {
+    "evidenceItem": {
+      "type": "object",
+      "required": ["evidence_id", "file_id", "relevance_score", "analysis"],
+      "properties": {
+        "evidence_id": { "type": "string" },
+        "file_id": { "type": "string" },
+        
+        "content": {
+          "type": "object",
+          "description": "The raw material extracted.",
+          "properties": {
+            "snippet": { "type": ["string", "null"], "maxLength": 1000 },
+            "visual_description": { "type": ["string", "null"] },
+            "extracted_values": { 
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": { "type": "string" },
+                  "type": { "type": "string" },
+                  "unit": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+
+        "location": {
+          "type": "object",
+          "description": "Strict coordinates within the source.",
+          "properties": {
+            "page": { "type": ["integer", "null"] },
+            "line_range": { "type": ["string", "null"], "pattern": "^\\d+(-\\d+)?$" },
+            "timestamp_range": { "type": ["string", "null"] },
+            "speaker": { "type": ["string", "null"] }
+          }
+        },
+
+        "analysis": {
+          "type": "object",
+          "description": "The AI's reasoning layer.",
+          "required": ["relevance_score", "explanation"],
+          "properties": {
+            "relevance_score": { "type": "number", "minimum": 0, "maximum": 1 },
+            "explanation": { "type": "string" },
+            "strength": { "type": "string", "enum": ["High", "Medium", "Low", "Circumstantial"] },
+            "legal_elements": { "type": "array", "items": { "type": "string" } },
+            "thematic_tags": { "type": "array", "items": { "type": "string" } },
+            "contradiction_flag": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  }
+}
+
