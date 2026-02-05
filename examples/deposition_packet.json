@@ -32,7 +32,8 @@
         "page": 42,
         "line_range": "15-18",
         "timestamp_range": null,
-        "speaker": "Dr. Jane Smith"
+        "speaker": "Dr. Jane Smith",
+        "bates_labels": ["SMITH-DEP-000042"]
       },
       "analysis": {
         "relevance_score": 0.95,
@@ -66,7 +67,8 @@
         "page": 43,
         "line_range": "5-7",
         "timestamp_range": null,
-        "speaker": "Dr. Jane Smith"
+        "speaker": "Dr. Jane Smith",
+        "bates_labels": ["SMITH-DEP-000043"]
       },
       "analysis": {
         "relevance_score": 0.88,

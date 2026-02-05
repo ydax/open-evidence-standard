@@ -27,8 +27,21 @@ The `source_manifest` array lists every file that contributed to the analysis. E
 #### 3. Evidence Items
 Evidence items are grouped into three logical sections:
 *   **Content:** What was found (snippet, visual description, extracted values).
-*   **Location:** Where it was found (page, line range, timestamp).
+*   **Location:** Where it was found (page, line range, timestamp, Bates labels).
 *   **Analysis:** Why it matters (relevance, legal elements, strength).
+
+#### Location Fields
+
+The `location` object identifies where evidence was found within the source:
+
+- `page`: Integer page number
+- `line_range`: String range (e.g., "15-18")
+- `timestamp_range`: Time range for audio/video
+- `speaker`: Speaker identification for transcripts
+- `bates_labels`: Array of Bates identifiers observed on the page(s)
+
+**Bates Labels:**  
+Bates numbering is the standard identification system for legal document production. Each page of discovery is assigned a unique alphanumeric identifier (e.g., "DEF-000123") typically stamped in the bottom-right corner. OES captures these identifiers to enable precise citation in legal briefs and motions.
 
 ## Compliance
 To be OES Compliant, a tool must:

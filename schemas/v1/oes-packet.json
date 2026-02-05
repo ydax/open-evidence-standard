@@ -80,7 +80,12 @@
             "page": { "type": ["integer", "null"] },
             "line_range": { "type": ["string", "null"], "pattern": "^\\d+(-\\d+)?$" },
             "timestamp_range": { "type": ["string", "null"] },
-            "speaker": { "type": ["string", "null"] }
+            "speaker": { "type": ["string", "null"] },
+            "bates_labels": {
+              "type": ["array", "null"],
+              "description": "Array of Bates label identifiers observed on the document page(s) where this evidence was found. Bates labels are alphanumeric identifiers (e.g., 'DEF-000123-A') typically appearing in the bottom-right or bottom-center of legal documents.",
+              "items": { "type": "string" }
+            }
           }
         },
 

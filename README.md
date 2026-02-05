@@ -12,7 +12,7 @@ The **Open Evidence Standard (OES)** is a technical specification for structured
 
 This standard is built on three non-negotiable principles:
 
-1.  **Citation is Sovereign:** No claim exists without a pointer to a specific page, line, or timestamp. If the AI cannot point to it, it is not evidence; it is hearsay.
+1.  **Citation is Sovereign:** No claim exists without a pointer to a specific page, line, or timestamp. If the AI cannot point to it, it is not evidence; it is hearsay. OES supports Bates numbering—the legal standard for document identification—enabling precise citation using industry-recognized identifiers.
 2.  **Structured over Conversational:** Legal analysis is data, not dialogue. It should be machine-readable, sortable, and filterable.
 3.  **Auditability:** Every packet of evidence must declare its provenance. The OES Envelope uses cryptographic hashes to bind the analysis to the source files, allowing verification even in "Zero-Trust" environments where the original files are not stored by the AI vendor.
 
