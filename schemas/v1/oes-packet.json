@@ -36,7 +36,26 @@
         "properties": {
           "file_id": { "type": "string" },
           "file_name": { "type": "string" },
-          "file_hash": { "type": "string", "description": "SHA-256 of the source file." }
+          "file_hash": {
+            "type": "string",
+            "description": "SHA-256 of the source file."
+          },
+          "document_category": {
+            "type": ["string", "null"],
+            "description": "Authority classification of this source file.",
+            "enum": [
+              "SwornTestimony",
+              "ObjectiveRecord",
+              "PartyFiling",
+              "Correspondence",
+              "ExpertMaterial",
+              "ContractualDocument",
+              "CourtRecord",
+              "Discovery",
+              "Unknown",
+              null
+            ]
+          }
         }
       }
     },
@@ -52,14 +71,14 @@
       "properties": {
         "evidence_id": { "type": "string" },
         "file_id": { "type": "string" },
-        
+
         "content": {
           "type": "object",
           "description": "The raw material extracted.",
           "properties": {
             "snippet": { "type": ["string", "null"], "maxLength": 1000 },
             "visual_description": { "type": ["string", "null"] },
-            "extracted_values": { 
+            "extracted_values": {
               "type": "array",
               "items": {
                 "type": "object",
@@ -78,7 +97,10 @@
           "description": "Strict coordinates within the source.",
           "properties": {
             "page": { "type": ["integer", "null"] },
-            "line_range": { "type": ["string", "null"], "pattern": "^\\d+(-\\d+)?$" },
+            "line_range": {
+              "type": ["string", "null"],
+              "pattern": "^\\d+(-\\d+)?$"
+            },
             "timestamp_range": { "type": ["string", "null"] },
             "speaker": { "type": ["string", "null"] },
             "bates_labels": {
@@ -96,14 +118,45 @@
           "properties": {
             "relevance_score": { "type": "number", "minimum": 0, "maximum": 1 },
             "explanation": { "type": "string" },
-            "strength": { "type": "string", "enum": ["High", "Medium", "Low", "Circumstantial"] },
-            "legal_elements": { "type": "array", "items": { "type": "string" } },
+            "strength": {
+              "type": "string",
+              "enum": ["High", "Medium", "Low", "Circumstantial"]
+            },
+            "legal_elements": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
             "thematic_tags": { "type": "array", "items": { "type": "string" } },
             "contradiction_flag": { "type": "boolean" }
+          }
+        },
+
+        "source_authority": {
+          "type": ["object", "null"],
+          "description": "Authority classification of the originating document.",
+          "properties": {
+            "category": {
+              "type": "string",
+              "enum": [
+                "SwornTestimony",
+                "ObjectiveRecord",
+                "PartyFiling",
+                "Correspondence",
+                "ExpertMaterial",
+                "ContractualDocument",
+                "CourtRecord",
+                "Discovery",
+                "Unknown"
+              ]
+            },
+            "authority_level": {
+              "type": "string",
+              "enum": ["highest", "high", "medium", "medium_low", "default"]
+            },
+            "caveat": { "type": ["string", "null"] }
           }
         }
       }
     }
   }
 }
-

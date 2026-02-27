@@ -10,7 +10,8 @@
     {
       "file_id": "depo-001",
       "file_name": "Deposition of Dr. Jane Smith - 2024-01-10.pdf",
-      "file_hash": "b4c6d8e0f2a1b3c5d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7a9b1c3"
+      "file_hash": "b4c6d8e0f2a1b3c5d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7a9b1c3",
+      "document_category": "SwornTestimony"
     }
   ],
   "evidence": [
@@ -40,8 +41,17 @@
         "explanation": "Direct testimony establishing deviation from standard of care regarding post-operative antibiotic administration.",
         "strength": "High",
         "legal_elements": ["Standard of Care", "Breach", "Medical Negligence"],
-        "thematic_tags": ["Standard of Care Deviation", "Expert Opinion", "Medical Protocol"],
+        "thematic_tags": [
+          "Standard of Care Deviation",
+          "Expert Opinion",
+          "Medical Protocol"
+        ],
         "contradiction_flag": false
+      },
+      "source_authority": {
+        "category": "SwornTestimony",
+        "authority_level": "highest",
+        "caveat": "Sworn under penalty of perjury"
       }
     },
     {
@@ -75,10 +85,18 @@
         "explanation": "Expert testimony establishing industry standard for post-operative antibiotic timing based on extensive experience.",
         "strength": "High",
         "legal_elements": ["Standard of Care", "Expert Opinion"],
-        "thematic_tags": ["Industry Standard", "Expert Opinion", "Medical Protocol"],
+        "thematic_tags": [
+          "Industry Standard",
+          "Expert Opinion",
+          "Medical Protocol"
+        ],
         "contradiction_flag": false
+      },
+      "source_authority": {
+        "category": "SwornTestimony",
+        "authority_level": "highest",
+        "caveat": "Sworn under penalty of perjury"
       }
     }
   ]
 }
-
