@@ -67,7 +67,7 @@
   "$defs": {
     "evidenceItem": {
       "type": "object",
-      "required": ["evidence_id", "file_id", "relevance_score", "analysis"],
+      "required": ["evidence_id", "file_id", "analysis"],
       "properties": {
         "evidence_id": { "type": "string" },
         "file_id": { "type": "string" },
@@ -85,7 +85,7 @@
                 "properties": {
                   "value": { "type": "string" },
                   "type": { "type": "string" },
-                  "unit": { "type": "string" }
+                  "unit": { "type": ["string", "null"] }
                 }
               }
             }
