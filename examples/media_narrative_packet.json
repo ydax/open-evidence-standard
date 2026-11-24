@@ -1,0 +1,248 @@
+{
+  "oes_version": "1.1.0",
+  "metadata": {
+    "id": "7b9c2f10-4e3a-4b8d-9a21-6c5e8f10d201",
+    "created_at": "2026-11-24T19:30:00Z",
+    "generator": "Koce MediaCorpusEvaluator v1.1.0",
+    "integrity_hash": "d85de07650583a3cd31e365b31fbbd403e93c4100051c5351681ccf03194aff7",
+    "narrative_overlay_hash": "369bac619f240477e54e2017940b499fd46f1abad521a3b2821d351ec87155be",
+    "rubric_id": "rubric-injury-suffering-v1",
+    "evaluation_prompt_hash": "5fffa414fbec4a2c1c89ec5f598c95e27d1c6c54026aadb480f76391c09ca0a0"
+  },
+  "source_manifest": [
+    {
+      "file_id": "vid-day-in-life-001",
+      "file_name": "Plaintiff_Home_Stairs_DayInLife.mp4",
+      "file_hash": "9c2e1f4a8b7d6012c3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6",
+      "mime_type": "video/mp4",
+      "modality": "video",
+      "duration_sec": 184.5,
+      "dimensions": {
+        "width": 1920,
+        "height": 1080
+      },
+      "provenance_party": "Plaintiff",
+      "document_category": "SwornTestimony"
+    },
+    {
+      "file_id": "med-ortho-002",
+      "file_name": "Memorial_Ortho_Progress_Notes_2026.pdf",
+      "file_hash": "4a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b",
+      "mime_type": "application/pdf",
+      "modality": "document",
+      "page_count": 28,
+      "provenance_party": "NonPartyProvider",
+      "document_category": "ObjectiveRecord"
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "evidence-media-001",
+      "file_id": "vid-day-in-life-001",
+      "content": {
+        "snippet": "It takes me almost four minutes just to get down the five steps every morning since the surgery.",
+        "visual_description": "Plaintiff grips the stair handrail with both hands, visibly favoring the left leg while descending step by step.",
+        "extracted_values": [
+          {
+            "value": "4",
+            "type": "Duration",
+            "unit": "minutes"
+          }
+        ]
+      },
+      "location": {
+        "page": null,
+        "line_range": null,
+        "timestamp_range": "01:12-01:28",
+        "speaker": "Plaintiff (Day-in-the-Life Video)",
+        "bates_labels": null,
+        "temporal": {
+          "start_sec": 72,
+          "end_sec": 88,
+          "keyframe_sec": 76.5,
+          "srt_cue_range": [14, 17]
+        },
+        "spatial": {
+          "coordinate_space": "normalized_1000",
+          "box_2d": [240, 310, 910, 740],
+          "frame_timestamp_sec": 76.5,
+          "target_label": "handrail grip and left-leg brace"
+        },
+        "media_production": {
+          "has_clean_speech_audio": true,
+          "speech_clarity_score": 0.91,
+          "visual_legibility": "High",
+          "camera_perspective": "Eye-level handheld interior",
+          "visual_utility": "VIDEO_CLIP"
+        }
+      },
+      "analysis": {
+        "relevance_score": 0.93,
+        "explanation": "Contemporaneous audiovisual proof of daily ambulatory limitation and physical pain following tibial plateau fixation.",
+        "strength": "High",
+        "legal_elements": ["Physical Pain", "Physical Impairment", "Loss of Enjoyment"],
+        "thematic_tags": ["Human Impact", "Mobility Limitation"],
+        "contradiction_flag": false
+      },
+      "source_authority": {
+        "category": "SwornTestimony",
+        "authority_level": "medium",
+        "caveat": "Demonstrative party video; subject to foundational authentication"
+      },
+      "narrative_evaluation": {
+        "rubric_id": "rubric-injury-suffering-v1",
+        "evaluation_prompt_hash": "5fffa414fbec4a2c1c89ec5f598c95e27d1c6c54026aadb480f76391c09ca0a0",
+        "must_right_passed": true,
+        "decision_stage": {
+          "calibrated_prob": 0.92,
+          "confidence": 0.89,
+          "crown_jewel_prob": 0.84,
+          "model": "gemini-3.8-flash"
+        },
+        "harmonic_score": 0.8912,
+        "affective_profile": {
+          "valence": -0.78,
+          "arousal": 0.64,
+          "primary_emotions": ["vulnerability", "determination", "pain"],
+          "rhetorical_mode": "pathos"
+        },
+        "observable_cues": {
+          "visual_cues": [
+            "two-handed white-knuckle rail grip",
+            "visible left-leg hesitation before step 3"
+          ],
+          "vocal_delivery_cues": ["audible exhalation of effort at 01:19"],
+          "omission_or_contrast_cues": [],
+          "falsifier_warnings": []
+        },
+        "arc_slot_bindings": [
+          {
+            "beat_id": "beat_daily_toll",
+            "arc_stage": "rising_proof",
+            "narrative_role": "visceral_anchor",
+            "fit_score": 0.91,
+            "suggested_trim_sec": [72, 88]
+          }
+        ]
+      }
+    },
+    {
+      "evidence_id": "evidence-doc-002",
+      "file_id": "med-ortho-002",
+      "content": {
+        "snippet": "Post-op month 6: persistent antalgic gait, left knee flexion limited to 85 degrees; advised permanent avoidance of stairs.",
+        "visual_description": null,
+        "extracted_values": [
+          {
+            "value": "85",
+            "type": "RangeOfMotion",
+            "unit": "degrees"
+          }
+        ]
+      },
+      "location": {
+        "page": 14,
+        "line_range": "12-16",
+        "timestamp_range": null,
+        "speaker": null,
+        "bates_labels": ["MED-ORTHO-000014"],
+        "temporal": null,
+        "spatial": null,
+        "media_production": null
+      },
+      "analysis": {
+        "relevance_score": 0.95,
+        "explanation": "Independent orthopedic clinical corroboration of permanent flexion deficit and stair restriction.",
+        "strength": "High",
+        "legal_elements": ["Causation", "Physical Impairment", "Future Medical Damages"],
+        "thematic_tags": ["Medical Corroboration"],
+        "contradiction_flag": false
+      },
+      "source_authority": {
+        "category": "ObjectiveRecord",
+        "authority_level": "high",
+        "caveat": null
+      },
+      "narrative_evaluation": {
+        "rubric_id": "rubric-injury-suffering-v1",
+        "evaluation_prompt_hash": "5fffa414fbec4a2c1c89ec5f598c95e27d1c6c54026aadb480f76391c09ca0a0",
+        "must_right_passed": true,
+        "decision_stage": {
+          "calibrated_prob": 0.94,
+          "confidence": 0.93,
+          "crown_jewel_prob": 0.65,
+          "model": "gemini-3.8-flash"
+        },
+        "harmonic_score": 0.874,
+        "affective_profile": {
+          "valence": -0.35,
+          "arousal": 0.3,
+          "primary_emotions": ["clinical_gravity"],
+          "rhetorical_mode": "logos"
+        },
+        "observable_cues": {
+          "visual_cues": [],
+          "vocal_delivery_cues": ["Contemporaneous clinical measurement: 85 deg flexion limit"],
+          "omission_or_contrast_cues": [],
+          "falsifier_warnings": []
+        },
+        "arc_slot_bindings": [
+          {
+            "beat_id": "beat_clinical_corroboration",
+            "arc_stage": "climax_proof",
+            "narrative_role": "objective_corroboration",
+            "fit_score": 0.94,
+            "suggested_trim_sec": null
+          }
+        ]
+      }
+    }
+  ],
+  "coverage_matrix": {
+    "rubric_id": "rubric-injury-suffering-v1",
+    "beats": [
+      {
+        "beat_id": "beat_daily_toll",
+        "beat_title": "Daily Functional Loss at Home",
+        "arc_stage": "rising_proof",
+        "target_valence": -0.7,
+        "target_arousal": 0.6,
+        "coverage_status": "STRONG",
+        "top_score": 0.8912,
+        "ranked_candidate_ids": ["evidence-media-001"],
+        "competing_takes": [
+          {
+            "evidence_id": "evidence-media-001",
+            "file_id": "vid-day-in-life-001",
+            "modality": "video",
+            "harmonic_score": 0.8912,
+            "trim_sec": [72, 88],
+            "rationale": "Strongest unedited audiovisual proof of stair limitation with clean direct speech."
+          }
+        ]
+      },
+      {
+        "beat_id": "beat_clinical_corroboration",
+        "beat_title": "Orthopedic Objective Corroboration",
+        "arc_stage": "climax_proof",
+        "target_valence": -0.3,
+        "target_arousal": 0.35,
+        "coverage_status": "STRONG",
+        "top_score": 0.874,
+        "ranked_candidate_ids": ["evidence-doc-002"],
+        "competing_takes": [
+          {
+            "evidence_id": "evidence-doc-002",
+            "file_id": "med-ortho-002",
+            "modality": "document",
+            "harmonic_score": 0.874,
+            "trim_sec": null,
+            "rationale": "Neutral clinical note corroborating permanent stair restriction."
+          }
+        ]
+      }
+    ],
+    "unmapped_crown_jewels": [],
+    "recommended_retrofits": []
+  }
+}

@@ -1,0 +1,404 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openevidencestandard.org/schemas/v1.1/oes-packet.json",
+  "title": "Open Evidence Packet (v1.1.0)",
+  "description": "A cryptographic container for structured legal evidence (v1.0.0 Core + v1.1.0 Experimental Multimedia and Narrative Extensions).",
+  "type": "object",
+  "required": ["oes_version", "metadata", "evidence"],
+  "properties": {
+    "oes_version": {
+      "type": "string",
+      "const": "1.1.0",
+      "description": "The version of the Open Evidence Standard used."
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["id", "created_at", "generator", "integrity_hash"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "generator": {
+          "type": "string",
+          "description": "The system that generated this packet (e.g., 'Clarisearch Core v2.1')."
+        },
+        "integrity_hash": {
+          "type": "string",
+          "description": "SHA-256 hash of the canonicalized objective 'evidence' array fields (evidence_id, file_id, content, location, source_authority, analysis). Ensures tamper-evidence independent of experimental narrative overlays."
+        },
+        "narrative_overlay_hash": {
+          "type": ["string", "null"],
+          "x-experimental": true,
+          "description": "[EXPERIMENTAL] SHA-256 hex digest of prompt-conditioned narrative_evaluation overlays across evidence items."
+        },
+        "rubric_id": {
+          "type": ["string", "null"],
+          "x-experimental": true,
+          "description": "[EXPERIMENTAL] Identifier of the narrative/emotional-arc evaluation rubric applied to this packet."
+        },
+        "evaluation_prompt_hash": {
+          "type": ["string", "null"],
+          "x-experimental": true,
+          "description": "[EXPERIMENTAL] SHA-256 digest of the evaluation prompt used to score narrative_evaluation overlays."
+        }
+      }
+    },
+    "source_manifest": {
+      "type": "array",
+      "description": "List of files included in this analysis. Critical for Zero-Trust verification.",
+      "items": {
+        "type": "object",
+        "required": ["file_id", "file_name", "file_hash"],
+        "properties": {
+          "file_id": { "type": "string" },
+          "file_name": { "type": "string" },
+          "file_hash": {
+            "type": "string",
+            "description": "SHA-256 of the source file."
+          },
+          "mime_type": {
+            "type": ["string", "null"],
+            "x-experimental": true,
+            "description": "[EXPERIMENTAL] IANA media type of the source file (e.g., 'video/mp4', 'audio/wav', 'image/jpeg', 'application/pdf')."
+          },
+          "modality": {
+            "type": ["string", "null"],
+            "x-experimental": true,
+            "description": "[EXPERIMENTAL] Coarse media modality classification for heterogeneous corpus routing.",
+            "enum": ["video", "audio", "image", "document", "spreadsheet", null]
+          },
+          "duration_sec": {
+            "type": ["number", "null"],
+            "minimum": 0,
+            "x-experimental": true,
+            "description": "[EXPERIMENTAL] Total duration in seconds for audio or video assets."
+          },
+          "dimensions": {
+            "type": ["object", "null"],
+            "x-experimental": true,
+            "description": "[EXPERIMENTAL] Pixel dimensions of image or video assets.",
+            "properties": {
+              "width": { "type": "integer", "minimum": 1 },
+              "height": { "type": "integer", "minimum": 1 }
+            }
+          },
+          "page_count": {
+            "type": ["integer", "null"],
+            "minimum": 1,
+            "x-experimental": true,
+            "description": "[EXPERIMENTAL] Total page count for paginated documents."
+          },
+          "provenance_party": {
+            "type": ["string", "null"],
+            "x-experimental": true,
+            "description": "[EXPERIMENTAL] Originating party, custodian, or production source label."
+          },
+          "document_category": {
+            "type": ["string", "null"],
+            "description": "Authority classification of this source file.",
+            "enum": [
+              "SwornTestimony",
+              "ObjectiveRecord",
+              "PartyFiling",
+              "Correspondence",
+              "ExpertMaterial",
+              "ContractualDocument",
+              "CourtRecord",
+              "Discovery",
+              "Unknown",
+              null
+            ]
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceItem" }
+    },
+    "coverage_matrix": {
+      "type": ["object", "null"],
+      "x-experimental": true,
+      "description": "[EXPERIMENTAL] Maps evaluated corpus candidates onto narrative/emotional-arc beats and surfaces gaps, competing takes, and outline retrofits.",
+      "properties": {
+        "rubric_id": { "type": "string" },
+        "beats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["beat_id", "coverage_status", "ranked_candidate_ids"],
+            "properties": {
+              "beat_id": { "type": "string" },
+              "beat_title": { "type": "string" },
+              "arc_stage": { "type": "string" },
+              "target_valence": { "type": "number", "minimum": -1, "maximum": 1 },
+              "target_arousal": { "type": "number", "minimum": 0, "maximum": 1 },
+              "coverage_status": { "type": "string", "enum": ["STRONG", "THIN", "GAP"] },
+              "top_score": { "type": "number", "minimum": 0, "maximum": 1 },
+              "ranked_candidate_ids": { "type": "array", "items": { "type": "string" } },
+              "competing_takes": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["evidence_id", "file_id", "harmonic_score"],
+                  "properties": {
+                    "evidence_id": { "type": "string" },
+                    "file_id": { "type": "string" },
+                    "modality": { "type": "string" },
+                    "harmonic_score": { "type": "number", "minimum": 0, "maximum": 1 },
+                    "trim_sec": {
+                      "type": ["array", "null"],
+                      "items": { "type": "number" },
+                      "minItems": 2,
+                      "maxItems": 2
+                    },
+                    "rationale": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "unmapped_crown_jewels": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "recommended_retrofits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["action", "reason"],
+            "properties": {
+              "action": {
+                "type": "string",
+                "enum": [
+                  "PULL_HOP",
+                  "PIVOT_TO_DOC_COMPOSITE",
+                  "PRUNE_OR_MERGE_BEAT",
+                  "PROMOTE_CROWN_JEWEL"
+                ]
+              },
+              "beat_id": { "type": ["string", "null"] },
+              "evidence_id": { "type": ["string", "null"] },
+              "file_id": { "type": ["string", "null"] },
+              "harmonic_score": { "type": ["number", "null"] },
+              "reason": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidenceItem": {
+      "type": "object",
+      "required": ["evidence_id", "file_id", "analysis"],
+      "properties": {
+        "evidence_id": { "type": "string" },
+        "file_id": { "type": "string" },
+        "relevance_score": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Optional top-level alias of analysis.relevance_score for backwards compatibility."
+        },
+
+        "content": {
+          "type": "object",
+          "description": "The raw material extracted.",
+          "properties": {
+            "snippet": { "type": ["string", "null"], "maxLength": 1000 },
+            "visual_description": { "type": ["string", "null"] },
+            "extracted_values": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "value": { "type": "string" },
+                  "type": { "type": "string" },
+                  "unit": { "type": ["string", "null"] }
+                },
+                "required": ["value", "type"]
+              }
+            }
+          }
+        },
+
+        "location": {
+          "type": "object",
+          "description": "Strict coordinates within the source.",
+          "properties": {
+            "page": { "type": ["integer", "null"] },
+            "line_range": {
+              "type": ["string", "null"],
+              "pattern": "^\\d+(-\\d+)?$"
+            },
+            "timestamp_range": { "type": ["string", "null"] },
+            "speaker": { "type": ["string", "null"] },
+            "bates_labels": {
+              "type": ["array", "null"],
+              "description": "Array of Bates label identifiers observed on the document page(s) where this evidence was found. Bates labels are alphanumeric identifiers (e.g., 'DEF-000123-A') typically appearing in the bottom-right or bottom-center of legal documents.",
+              "items": { "type": "string" }
+            },
+            "temporal": {
+              "type": ["object", "null"],
+              "x-experimental": true,
+              "description": "[EXPERIMENTAL] Precision numeric temporal anchors for audio/video segments.",
+              "properties": {
+                "start_sec": { "type": "number", "minimum": 0 },
+                "end_sec": { "type": "number", "minimum": 0 },
+                "keyframe_sec": { "type": ["number", "null"], "minimum": 0 },
+                "srt_cue_range": {
+                  "type": ["array", "null"],
+                  "items": { "type": "integer" },
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              }
+            },
+            "spatial": {
+              "type": ["object", "null"],
+              "x-experimental": true,
+              "description": "[EXPERIMENTAL] Normalized 2D bounding-box localization in video frames or images ([ymin, xmin, ymax, xmax]).",
+              "properties": {
+                "coordinate_space": {
+                  "type": "string",
+                  "enum": ["normalized_1000", "normalized_1"]
+                },
+                "box_2d": {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "minItems": 4,
+                  "maxItems": 4
+                },
+                "frame_timestamp_sec": { "type": ["number", "null"] },
+                "target_label": { "type": ["string", "null"] }
+              }
+            },
+            "media_production": {
+              "type": ["object", "null"],
+              "x-experimental": true,
+              "description": "[EXPERIMENTAL] Broadcast and visual-production suitability metadata for multimedia assets.",
+              "properties": {
+                "has_clean_speech_audio": { "type": "boolean" },
+                "speech_clarity_score": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+                "visual_legibility": {
+                  "type": ["string", "null"],
+                  "enum": ["High", "Medium", "Low", null]
+                },
+                "camera_perspective": { "type": ["string", "null"] },
+                "visual_utility": { "type": ["string", "null"] }
+              }
+            }
+          }
+        },
+
+        "analysis": {
+          "type": "object",
+          "description": "The AI's reasoning layer.",
+          "required": ["relevance_score", "explanation"],
+          "properties": {
+            "relevance_score": { "type": "number", "minimum": 0, "maximum": 1 },
+            "explanation": { "type": "string" },
+            "strength": {
+              "type": "string",
+              "enum": ["High", "Medium", "Low", "Circumstantial"]
+            },
+            "legal_elements": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "thematic_tags": { "type": "array", "items": { "type": "string" } },
+            "contradiction_flag": { "type": "boolean" }
+          }
+        },
+
+        "source_authority": {
+          "type": ["object", "null"],
+          "description": "Authority classification of the originating document.",
+          "properties": {
+            "category": {
+              "type": "string",
+              "enum": [
+                "SwornTestimony",
+                "ObjectiveRecord",
+                "PartyFiling",
+                "Correspondence",
+                "ExpertMaterial",
+                "ContractualDocument",
+                "CourtRecord",
+                "Discovery",
+                "Unknown"
+              ]
+            },
+            "authority_level": {
+              "type": "string",
+              "enum": ["highest", "high", "medium", "medium_low", "default"]
+            },
+            "caveat": { "type": ["string", "null"] }
+          }
+        },
+
+        "narrative_evaluation": {
+          "type": ["object", "null"],
+          "x-experimental": true,
+          "description": "[EXPERIMENTAL] Prompt-conditioned narrative, emotional-arc, and observable-cue scoring, strictly separated from immutable objective record evidence.",
+          "properties": {
+            "rubric_id": { "type": ["string", "null"] },
+            "evaluation_prompt_hash": { "type": ["string", "null"] },
+            "must_right_passed": { "type": "boolean" },
+            "decision_stage": {
+              "type": ["object", "null"],
+              "properties": {
+                "calibrated_prob": { "type": "number", "minimum": 0, "maximum": 1 },
+                "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+                "crown_jewel_prob": { "type": "number", "minimum": 0, "maximum": 1 },
+                "model": { "type": "string" }
+              }
+            },
+            "harmonic_score": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+            "affective_profile": {
+              "type": "object",
+              "properties": {
+                "valence": { "type": "number", "minimum": -1, "maximum": 1 },
+                "arousal": { "type": "number", "minimum": 0, "maximum": 1 },
+                "primary_emotions": { "type": "array", "items": { "type": "string" } },
+                "rhetorical_mode": {
+                  "type": "string",
+                  "enum": ["ethos", "logos", "pathos", "other"]
+                }
+              }
+            },
+            "observable_cues": {
+              "type": "object",
+              "properties": {
+                "visual_cues": { "type": "array", "items": { "type": "string" } },
+                "vocal_delivery_cues": { "type": "array", "items": { "type": "string" } },
+                "omission_or_contrast_cues": { "type": "array", "items": { "type": "string" } },
+                "falsifier_warnings": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "arc_slot_bindings": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["beat_id", "fit_score"],
+                "properties": {
+                  "beat_id": { "type": "string" },
+                  "arc_stage": { "type": "string" },
+                  "narrative_role": { "type": "string" },
+                  "fit_score": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "suggested_trim_sec": {
+                    "type": ["array", "null"],
+                    "items": { "type": "number" },
+                    "minItems": 2,
+                    "maxItems": 2
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
